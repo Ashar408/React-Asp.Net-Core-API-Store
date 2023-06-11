@@ -2,17 +2,21 @@ import { Avatar, List, ListItem, ListItemAvatar, ListItemText } from "@mui/mater
 import { Product } from "../../app/models/product"
 import ProductList from "./ProductList";
 import { useState, useEffect } from "react";
+import apiAgent from "../../app/api/agent";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 
-interface Props{
-    product: Product[];
-}
+
 export default function Catalog(){
     const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
     useEffect(()=>{
-      fetch('http://localhost:5109/api/product')
-      .then(response => response.json())
-      .then(data => setProducts(data))
+    apiAgent.Catalog.list()
+    .then(products => setProducts(products) )
+    .catch(error => console.log(error))
+    .finally(() => setLoading(false))
     },[])
+
+    if(loading) return <LoadingComponent message="Loading Products...."/>
     return(
         <div>
            <ProductList products={products} />

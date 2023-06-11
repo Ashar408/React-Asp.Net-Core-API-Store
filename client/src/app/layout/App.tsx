@@ -1,12 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Catalog from '../../features/catalog/Catalog';
-import { Container, CssBaseline, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Header from './Header';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from '../../features/home/Home';
 import ProductDetails from '../../features/catalog/ProductDetails';
 import AboutPage from '../../features/about/About';
 import ContactPage from '../../features/contact/Contact';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import NotFound from '../errors/NotFound';
+
+
+
 
 
 
@@ -26,6 +32,7 @@ function handleThemeChange(){
 }
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer position='bottom-right'  />
     <CssBaseline/>
       <Header darkMode={darkmode} handleThemeChange={handleThemeChange} />
     <Container>
@@ -35,7 +42,9 @@ function handleThemeChange(){
      <Route path='/catalog/:id' Component={ProductDetails} />
      <Route path='/about' Component={AboutPage} />
      <Route path='/contact' Component={ContactPage} />
+     <Route path='*' Component={NotFound}/>
      </Routes>
+  
      </Container>
     </ThemeProvider>
   )
